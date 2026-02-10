@@ -1,0 +1,11 @@
+section,metric,value,status,count,source
+kpis,total_leads,15.0,,,
+kpis,average_score,73.2,,,
+by_status,,,Qualified,6.0,
+by_status,,,New,5.0,
+by_status,,,Lost,2.0,
+by_status,,,Won,2.0,
+by_source,,,,6.0,Website
+by_source,,,,3.0,LinkedIn
+by_source,,,,3.0,Referral
+by_source,,,,3.0,Google Ads
