@@ -4,7 +4,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 INPUT_FILE = BASE_DIR / "input_leads.csv"
-OUTPUT_FILE = BASE_DIR / "output_report.csv"
+# OUTPUT_FILE = BASE_DIR / "output_report.csv"
 
 def main():
     try:
@@ -15,7 +15,7 @@ def main():
 
         # --- KPIs ---
         total_leads = len(df)
-        average_score=df["score"].mean()
+        average_score = df["score"].mean()
 
         kpis = pd.DataFrame([
             {"metric": "total_leads", "value": total_leads},
@@ -43,7 +43,7 @@ def main():
         with pd.ExcelWriter(output_file, engine="xlsxwriter") as writer:
             kpis.to_excel(writer, sheet_name="KPIs", index=False)
             by_status.to_excel(writer, sheet_name="By Status", index=False)
-            by_source.to_excel(writer, sheet_name="By source", index=False)
+            by_source.to_excel(writer, sheet_name="By Source", index=False)
             qualified_leads.to_excel(writer, sheet_name="Qualified", index=False)
 
         print(f"✅ Rapport Excel généré : {output_file.name}")

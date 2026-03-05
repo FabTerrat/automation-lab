@@ -1,0 +1,16 @@
+lead_id,date,source,status,score,owner
+L001,2025-01-03,Website,New,72,Alice
+L002,2025-01-03,LinkedIn,Qualified,85,Bob
+L003,2025-01-04,Website,Qualified,90,Alice
+L004,2025-01-04,Referral,New,65,Claire
+L005,2025-01-05,Google Ads,Lost,40,Bob
+L006,2025-01-05,Website,Qualified,88,Alice
+L007,2025-01-06,LinkedIn,New,70,Claire
+L008,2025-01-06,Referral,Qualified,92,Bob
+L009,2025-01-07,Google Ads,New,55,Alice
+L010,2025-01-07,Website,Won,95,Claire
+L011,2025-01-08,LinkedIn,Lost,30,Bob
+L012,2025-01-08,Website,Qualified,80,Alice
+L013,2025-01-09,Referral,Won,98,Claire
+L014,2025-01-09,Google Ads,Qualified,78,Bob
+L015,2025-01-10,Website,New,60,Alice

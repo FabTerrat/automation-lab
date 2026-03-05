@@ -1,0 +1,7 @@
+lead_id,date,source,status,score,owner
+L001,2025-01-03,LinkedIn,Qualified,26,Alicia
+L002,2025-01-03,LinkedIn,Qualified,15,Celine
+L003,2025-01-04,Website,New,89,Ronny
+L004,2025-01-04,Referral,New,66,Bruno
+L005,2025-01-05,Google Ads,Lost,30,Blandine
+L006,2025-01-05,Website,Lost,90,Gorge
