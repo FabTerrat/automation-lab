@@ -31,6 +31,7 @@ def fetch_data():
 
 
 # -5- Créer une nouvelle page data sous la première
+# Une page est une ligne de donnée (pas une nouvelle page Notion)
 def create_page(name,status,score):
     url = "https://api.notion.com/v1/pages"
 
