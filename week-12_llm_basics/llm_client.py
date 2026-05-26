@@ -1,41 +1,19 @@
 from abc import ABC, abstractmethod
 import json
 
+import os 
+from dotenv import load_dotenv
+from openai import OpenAI
+
+from prompt_builder import PromptBuilder
+
+
 class LLMClient(ABC):
 
     @abstractmethod
     def analyze_lead(self, message):
         pass
     
-
-class PromptBuilder:
-    @staticmethod
-    def build_lead_prompt(message):
-
-        return f"""
-            Tu es un assistant spécialisé dans la qualification de leads.
-
-            Analyse le message suivant et retourne uniquement un JSON valide.
-
-            Le JSON doit contenir exactement ces champs :
-            - category : string
-            - priority : Low, Medium ou High
-            - score : integer entre 0 et 100
-            - confidence : float entre 0 et 1
-            - summary : string 
-            - reason : string
-
-            Critères :
-            - Un besoin clair augmente le score
-            - une urgence explicite augmente le score 
-            - Un budget mentionné augmente le score
-            - Un besoin lié à l'automation, au CRM, aux ventes ou aux opérations est pertinent
-
-
-            Message : 
-            {message}
-            """
-
 
 class FakeLLMClient(LLMClient):
 
@@ -62,3 +40,60 @@ class FakeLLMClient(LLMClient):
             "reason": "Besoin clair, budget mentionné et urgence implicite."
         }
         """
+    
+class OpenAIClient(LLMClient):
+
+    def __init__(self, model="gpt-4.1-mini"):
+        load_dotenv()
+
+        api_key = os.getenv("OPENAI_API_KEY")
+
+        if not api_key:
+            raise ValueError("OPENAI_API_KEY est manquante dans le fichier .env")
+        
+        self.client = OpenAI(api_key=api_key)
+        self.model = model
+
+    def analyze_lead(self, message):
+        prompt = PromptBuilder.build_lead_prompt(message)
+
+        response = self.client.responses.create(
+            model=self.model,
+            input=prompt
+        )
+
+        raw_response = response.output_text
+
+        #Ici ces prints permettent de voir la sortie réel du LLM et faire le nettoyage adéquate si on a pas du JSON pur 
+        print("\n --- RAW RESPONSE ---")
+        print(repr(raw_response))
+        print("--- END RAW RESPONSE ---\n")
+        # --------------------------------------
+
+        #Nettoyage pour obtenir un vrai JSON exploitable
+        clean_response = raw_response.strip()
+
+        if clean_response.startswith("```json"):
+            clean_response = clean_response.removeprefix("```json").strip()
+
+        if clean_response.startswith("```"):
+            clean_response = clean_response.removeprefix("```").strip()
+
+        if clean_response.endswith("```"):
+            clean_response = clean_response.removesuffix("```").strip()
+        # -------------------------------------------
+
+        # ------------- Ou faire ------------
+        #start = raw_response.find("{")
+        #end = raw_response.rfind("}")
+        #if start == -1 or end == -1:
+            #raise ValueError("Aucun JSON détecté dans la réponse du LLM.")
+        #
+        # clean_response = raw_response[start:end + 1]
+
+        print("\n --- Clean RESPONSE ---")
+        print(repr(clean_response))
+        print("--- END Clean RESPONSE ---\n")
+        # --------------------------------------
+
+        return json.loads(clean_response)

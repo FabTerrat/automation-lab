@@ -1,5 +1,5 @@
 import json
-from llm_client import FakeLLMClient
+from llm_client import OpenAIClient
 
 def fake_llm_analyze(message):
     """
@@ -70,7 +70,7 @@ def main():
 
     print ("Analyse de lead en cours...")
 
-    client = FakeLLMClient()
+    client = OpenAIClient()
     result = client.analyze_lead(lead_message)
 
     validate_llm_result(result)
